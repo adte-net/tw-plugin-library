@@ -1,0 +1,63 @@
+{
+	"description": "Testing documentation, and demo framework for tw5-relink",
+	"plugins": [
+		"tiddlywiki/pluginlibrary"
+	],
+	"themes": [
+		"tiddlywiki/vanilla",
+		"tiddlywiki/snowwhite"
+	],
+	"build": {
+		"test": [
+			"--output", "./docs/",
+			"--rendertiddler",
+				"$:/core/save/all",
+				"test.html",
+				"text/plain",
+				"",
+				"publishFilter",
+				"-$:/DefaultTiddlers -$:/plugins/tiddlywiki/pluginlibrary -$:/plugins/tiddlywiki/highlight -$:/plugins/flibbles/uglify",
+			"--test"
+		],
+		"index": [
+			"--deletetiddlers",
+				"$:/config/flibbles/uglify/compress",
+			"--setfield",
+				"$:/plugins/flibbles/relink",
+				"created",
+				"Templates/release-date",
+				"text/plain",
+			"--output", "./docs/",
+			"--rendertiddler",
+				"$:/core/save/all",
+				"index.html",
+				"text/plain",
+				"",
+				"publishFilter",
+				"-[prefix[test/]] -$:/plugins/tiddlywiki/jasmine -$:/plugins/tiddlywiki/pluginlibrary -$:/plugins/flibbles/uglify -$:/config/flibbles/uglify/blacklist -[prefix[$:/UpgradeLibrary]]"
+		],
+		"bundle": [
+			"--output", "./bundle",
+			"--render",
+				"[plugin-type[plugin]prefix[$:/plugins/flibbles/relink]]",
+				"[split[/]last[]addsuffix[.json]]",
+				"text/plain",
+				"$:/core/templates/json-tiddler"
+		],
+		"library": [
+			"--output", "./docs/library/",
+			"--makelibrary","$:/UpgradeLibrary",
+			"--savelibrarytiddlers",
+				"$:/UpgradeLibrary",
+				"recipes/library/tiddlers/",
+				"$:/UpgradeLibrary/List",
+			"--savetiddler",
+				"$:/UpgradeLibrary/List",
+				"recipes/library/tiddlers.json",
+			"--rendertiddler",
+				"$:/plugins/tiddlywiki/pluginlibrary/library.template.html",
+				"index.html",
+				"text/plain"
+		]
+	}
+}
